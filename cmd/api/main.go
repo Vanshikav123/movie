@@ -10,9 +10,11 @@ import (
 	"os"
 	"time"
 
+	"github.com/Vanshikav123/greenlight.git/internal/data"
 	_ "github.com/lib/pq"
 )
 
+// psql $GREENLIGHT_DB_DSN
 const version = "1.0.0"
 
 type config struct {
@@ -28,7 +30,8 @@ type config struct {
 
 type application struct {
 	config config
-	log    *log.Logger
+	logger *log.Logger
+	models data.Models
 }
 
 func main() {
@@ -36,7 +39,7 @@ func main() {
 
 	flag.IntVar(&cfg.port, "port", 4000, "API server port")
 	flag.StringVar(&cfg.env, "env", "developement", "Environment (development|staging|production)")
-	flag.StringVar(&cfg.db.dsn, "db-dsn", "postgres://greenlight:password@localhost/greenlight", "PostgreSQL DSN")
+	flag.StringVar(&cfg.db.dsn, "db-dsn", os.Getenv("GREENLIGHT_DB_DSN"), "PostgreSQL DSN")
 	flag.IntVar(&cfg.db.maxOpenConns, "db-max-open-conns", 25, "PostgreSQL max open connections")
 	flag.IntVar(&cfg.db.maxIdleConns, "db-max-idle-conns", 25, "PostgreSQL max idle connections")
 	flag.StringVar(&cfg.db.maxIdleTime, "db-max-idle-time", "15m", "PostgreSQL max connection idle time")
@@ -51,7 +54,8 @@ func main() {
 	logger.Printf("database connection pool established")
 	app := &application{
 		config: cfg,
-		log:    logger,
+		logger: logger,
+		models: data.NewModels(db),
 	}
 
 	srv := &http.Server{
