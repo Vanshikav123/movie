@@ -4,8 +4,8 @@ import (
 	"errors"
 	"net/http"
 
-	"github.com/Vanshikav123/greenlight.git/internal/data"
-	"github.com/Vanshikav123/greenlight.git/internal/validator"
+	"github.com/Vanshikav123/movie.git/internal/data"
+	"github.com/Vanshikav123/movie.git/internal/validator"
 )
 
 func (app *application) registerUserHandler(w http.ResponseWriter, r *http.Request) {

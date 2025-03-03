@@ -7,8 +7,8 @@ import (
 	"os"
 	"time"
 
-	"github.com/Vanshikav123/greenlight.git/internal/data"
-	"github.com/Vanshikav123/greenlight.git/internal/jsonlog"
+	"github.com/Vanshikav123/movie.git/internal/data"
+	"github.com/Vanshikav123/movie.git/internal/jsonlog"
 	_ "github.com/lib/pq"
 )
 
